@@ -1,19 +1,26 @@
-import { useState } from "react"
-import { Button } from "./components/ui/button"
-function Likes(){
-  const [likes,setLikes] = useState(0)
-  const handleClick = ()=>{
-    setLikes(likes+1)
-  }
-  return (
-   <Button onClick={handleClick} variant="destructive">Likes: {likes}</Button>
-  
-  )
-}
+import { ThemeProvider } from './components/theme-provider'
+import {ThemeToggle} from './components/theme-toggle'
+import { CardDemo } from './components/timerCard'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
+
 function App() {
- return(
-  <Likes></Likes>
- )
+  return (
+    <>
+ <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4">
+        <ThemeToggle />
+        <Tabs defaultValue='pomodoro' className='w-[400px]'>
+      <TabsList>
+        <TabsTrigger value='pomodoro'>Pomodoro</TabsTrigger>
+        <TabsTrigger value='short-break'>Short Break</TabsTrigger>
+      </TabsList>
+      <TabsContent value='pomodoro'><CardDemo /></TabsContent>
+      <TabsContent value='short-break'>short break</TabsContent>
+        </Tabs>
+      </div>
+    </ThemeProvider>
+  </>
+  )
 }
 
 export default App
