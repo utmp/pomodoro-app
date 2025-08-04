@@ -5,11 +5,10 @@ import {
   CardFooter,
   CardHeader,
 } from "@renderer/components/ui/card"
-import { Input } from "@renderer/components/ui/input"
 import { useState,useEffect } from "react"
+import { useTask } from "./TaskContext"
 
-
-type BreakTimer = 5 | 15
+type BreakTimer = 1 | 15
 interface Props{
     breakTimer: BreakTimer,
 }
@@ -17,8 +16,18 @@ interface Props{
 const Breaks : React.FC<Props> = ({breakTimer}) => {
   const [timeLeft,setTimeLeft] = useState(breakTimer*60)
   const [isRunning,setIsRunning] = useState(false)
-  const [task,setTask] = useState("")
+  const [task, setTask] = useState("")
+  const { addTask } = useTask()
   useEffect(()=>{
+    if(timeLeft === 0 && isRunning){
+        setIsRunning(false)
+        addTask({
+        name: task || `${breakTimer} minute break`,
+        type: breakTimer === 1 ? 'short-break' : 'long-break',
+        completedAt: new Date(),
+        duration: breakTimer * 60
+        })
+    }
     let timer: NodeJS.Timeout
     if(isRunning && timeLeft>0){
       timer = setInterval(()=>{
@@ -28,7 +37,7 @@ const Breaks : React.FC<Props> = ({breakTimer}) => {
     return () => {
       if(timer) clearInterval(timer)
     }
-  },[isRunning,timeLeft])
+  },[isRunning,timeLeft,breakTimer,task,addTask])
 
   const toggleTimer = () =>{
     setIsRunning(!isRunning)
@@ -45,7 +54,7 @@ const Breaks : React.FC<Props> = ({breakTimer}) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <h1 className="text-center">Time to Break</h1>
+        <h1 className="text-center">Time for a break!</h1>
           <div className="text-6xl font-bold text-center">
             {formatTime(timeLeft)}
           </div>

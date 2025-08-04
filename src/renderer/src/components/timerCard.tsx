@@ -6,15 +6,24 @@ import {
   CardHeader,
 } from "@renderer/components/ui/card"
 import { Input } from "@renderer/components/ui/input"
-import { Label } from "@renderer/components/ui/label"
 import { useState,useEffect } from "react"
-
+import { useTask } from "./TaskContext"
 export function CardDemo() {
   const [timeLeft,setTimeLeft] = useState(25*60)
   const [isRunning,setIsRunning] = useState(false)
   const [task,setTask] = useState("")
+  const {addTask} = useTask()
   useEffect(()=>{
     let timer: NodeJS.Timeout
+    if(timeLeft === 0 && isRunning){
+      setIsRunning(false)
+      addTask({
+        name: task || "Pomodoro Session",
+        type: "pomodoro",
+        completedAt: new Date(),
+        duration: 25 * 60 
+      })
+    }
     if(isRunning && timeLeft>0){
       timer = setInterval(()=>{
         setTimeLeft((prevTime)=>prevTime - 1)
@@ -23,7 +32,7 @@ export function CardDemo() {
     return () => {
       if(timer) clearInterval(timer)
     }
-  },[isRunning,timeLeft])
+  },[isRunning,timeLeft,task,addTask])
 
   const toggleTimer = () =>{
     setIsRunning(!isRunning)
@@ -40,7 +49,7 @@ export function CardDemo() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <h1 className="text-center">Time to Focus</h1>
+        <h1 className="text-center">Time to Focus!</h1>
           <div className="text-6xl font-bold text-center">
             {formatTime(timeLeft)}
           </div>
