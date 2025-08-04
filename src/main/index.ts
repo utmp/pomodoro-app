@@ -1,14 +1,16 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain,screen,Notification } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
-  // Create the browser window.
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const {width,height} = primaryDisplay.workAreaSize
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: width/2,
+    height: height/1.2,
     show: false,
+    resizable: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -51,7 +53,12 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
-
+  ipcMain.on('send-notification', (_, { title, body }) => {
+  new Notification({
+    title,
+    body,
+  }).show()
+})
   createWindow()
 
   app.on('activate', function () {

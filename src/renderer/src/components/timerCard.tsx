@@ -17,6 +17,10 @@ export function CardDemo() {
     let timer: NodeJS.Timeout
     if(timeLeft === 0 && isRunning){
       setIsRunning(false)
+      window.electronAPI.sendNotification(
+        'Pomodoro Completed!',
+        `Compeleted: ${task || 'Pomodoro Session'}`
+      )
       addTask({
         name: task || "Pomodoro Session",
         type: "pomodoro",

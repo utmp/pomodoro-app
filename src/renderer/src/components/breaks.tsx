@@ -8,7 +8,7 @@ import {
 import { useState,useEffect } from "react"
 import { useTask } from "./TaskContext"
 
-type BreakTimer = 1 | 15
+type BreakTimer = 5 | 15
 interface Props{
     breakTimer: BreakTimer,
 }
@@ -21,9 +21,13 @@ const Breaks : React.FC<Props> = ({breakTimer}) => {
   useEffect(()=>{
     if(timeLeft === 0 && isRunning){
         setIsRunning(false)
+        window.electronAPI.sendNotification(
+        'Break Completed!',
+        `Time to touch a grass`
+      )
         addTask({
         name: task || `${breakTimer} minute break`,
-        type: breakTimer === 1 ? 'short-break' : 'long-break',
+        type: breakTimer === 5 ? 'short-break' : 'long-break',
         completedAt: new Date(),
         duration: breakTimer * 60
         })

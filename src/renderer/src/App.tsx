@@ -18,7 +18,7 @@ function App() {
         <TabsTrigger value='long-break'>Long Break</TabsTrigger>
       </TabsList>
       <TabsContent value='pomodoro'><CardDemo /></TabsContent>
-      <TabsContent value='short-break'><Breaks breakTimer={1}/></TabsContent>
+      <TabsContent value='short-break'><Breaks breakTimer={5}/></TabsContent>
       <TabsContent value='long-break'><Breaks breakTimer={15}/></TabsContent>
         </Tabs>
         <div className='w-[400px]'><Tasks /></div>

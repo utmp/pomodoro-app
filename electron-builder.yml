@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.pomodoro.app
 productName: pomodoro-app
 directories:
   buildResources: build
