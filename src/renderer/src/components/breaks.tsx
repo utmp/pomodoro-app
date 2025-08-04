@@ -6,11 +6,16 @@ import {
   CardHeader,
 } from "@renderer/components/ui/card"
 import { Input } from "@renderer/components/ui/input"
-import { Label } from "@renderer/components/ui/label"
 import { useState,useEffect } from "react"
 
-export function CardDemo() {
-  const [timeLeft,setTimeLeft] = useState(25*60)
+
+type BreakTimer = 5 | 15
+interface Props{
+    breakTimer: BreakTimer,
+}
+
+const Breaks : React.FC<Props> = ({breakTimer}) => {
+  const [timeLeft,setTimeLeft] = useState(breakTimer*60)
   const [isRunning,setIsRunning] = useState(false)
   const [task,setTask] = useState("")
   useEffect(()=>{
@@ -30,7 +35,7 @@ export function CardDemo() {
   }
   const resetTimer = () =>{
     setIsRunning(false)
-    setTimeLeft(25*60)
+    setTimeLeft(breakTimer*60)
   }
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -40,7 +45,7 @@ export function CardDemo() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <h1 className="text-center">Time to Focus</h1>
+        <h1 className="text-center">Time to Break</h1>
           <div className="text-6xl font-bold text-center">
             {formatTime(timeLeft)}
           </div>
@@ -49,14 +54,6 @@ export function CardDemo() {
        <form onSubmit={(e) => e.preventDefault()}>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Input
-                id="task"
-                type="text"
-                placeholder="name task"
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
-                required
-              />
             </div>
           </div>
         </form>
@@ -69,7 +66,7 @@ export function CardDemo() {
         >
           {isRunning ? "Pause" : "Start"}
         </Button>
-        {timeLeft < 25 * 60 && !isRunning && (
+        {timeLeft < breakTimer * 60 && !isRunning && (
           <Button 
             onClick={resetTimer} 
             variant="outline" 
@@ -82,3 +79,4 @@ export function CardDemo() {
     </Card>
   )
 }
+export default Breaks
