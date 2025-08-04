@@ -1,15 +1,29 @@
-# pomodoro-app
+# Pomodoro-app
 
-An Electron application with React and TypeScript
+Pomodoro timer for productivity
+# Demo
+<img src="./build/demo.gif" />
 
-## Recommended IDE Setup
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
+### 🛠 Tech Stack: 
+- Electronjs
+- Reactjs
+- Typescript
+- Tailwindcss
+- Shadcn-ui (component library)
 
 ### Install
-
+### Build from source
+If pnpm is not installed:
+```bash
+$ npm i -g pnpm
+```
+clone repo:
+```bash
+$ git clone https://github.com/utmp/pomodoro-app.git
+cd pomodoro-app
+```
+Install deps:
 ```bash
 $ pnpm install
 ```
@@ -19,7 +33,6 @@ $ pnpm install
 ```bash
 $ pnpm dev
 ```
-
 ### Build
 
 ```bash
