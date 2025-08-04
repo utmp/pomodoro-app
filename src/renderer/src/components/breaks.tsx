@@ -16,7 +16,7 @@ interface Props{
 const Breaks : React.FC<Props> = ({breakTimer}) => {
   const [timeLeft,setTimeLeft] = useState(breakTimer*60)
   const [isRunning,setIsRunning] = useState(false)
-  const [task, setTask] = useState("")
+  const [task] = useState("")
   const { addTask } = useTask()
   useEffect(()=>{
     if(timeLeft === 0 && isRunning){
